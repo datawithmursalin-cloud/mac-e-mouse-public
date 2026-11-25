@@ -1,0 +1,260 @@
+//
+// --------------------------------------------------------------------------
+// Constants.h
+// Created for Mac Mouse Fix (https://github.com/noah-nuebling/mac-mouse-fix)
+// Created by Noah Nuebling in 2020
+// Licensed under MIT
+// --------------------------------------------------------------------------
+//
+
+#import <Foundation/Foundation.h>
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface Constants : NSObject
+
+// Other
+
+#define kMFBundleIDApp      @"app.mac-e-mouse"
+#define kMFBundleIDHelper   @"app.mac-e-mouse.helper"
+
+#define kMFRelativeAccomplicePath           @"Contents/Library/LaunchServices/Mac Mouse Fix Accomplice"
+#define kMFRelativeHelperAppPath            @"Contents/Library/LoginItems/Mac E-Mouse Helper.app"
+#define kMFRelativeHelperExecutablePath     @"Contents/Library/LoginItems/Mac E-Mouse Helper.app/Contents/MacOS/Mac E-Mouse Helper"
+
+#define kMFRelativeMainAppPathFromHelperBundle          @"../../../../"
+#define kMFRelativeMainAppPathFromAccomplice            @"../../../../"
+#define kMFRelativeMainAppPathFromAccompliceFolder      @"../../../"
+
+#define kMFMainAppName      @"Mac E-Mouse.app"
+#define kMFAccompliceName   @"Mac Mouse Fix Accomplice"
+
+#define kMFLaunchdHelperIdentifier @"app.mac-e-mouse.agent"
+
+#define kMFLaunchdHelperIdentifierSM  @"app.mac-e-mouse.helper"
+///      We finally moved to this new label when moving to the new Service Management API for enabling the Helper as background task for Ventura.
+///      We experienced strange issues when using the old label, so we're giving this new one a try.
+///      Keep this in sync with `sm_launchd.plist`.
+
+#define kMFLaunchctlPath            @"/bin/launchctl"
+#define kMFXattrPath                @"/usr/bin/xattr"
+#define kMFOpenCLTPath              @"/usr/bin/open"
+#define kMFTccutilPath              @"/usr/bin/tccutil"
+
+
+// Accomplice Arguments
+
+#define kMFAccompliceModeUpdate         @"update"
+#define kMFAccompliceModeReloadHelper   @"reloadHelper"
+
+// Message dict keys
+
+#define kMFMessageKeyMessage    @"message"
+#define kMFMessageKeyPayload    @"payload"
+
+// Other AddMode keys (more below)
+#define kMFAddModeModificationPrecondition  @"addModeModifier"
+
+// Website
+
+#define kMFWebsiteAddress  @"https://noah-nuebling.github.io/mac-mouse-fix-website" //@"https://mousefix.org"
+
+// Remapping dictionary keywords
+
+typedef NSString*                                                       MFStringConstant; // Not sure if this is useful
+
+#pragma mark - NSNotificationCenter notification names
+
+#define kMFNotificationNameRemapsChanged                                @"remapsChanged"
+
+#pragma mark - Config dict
+
+#define kMFConfigKeyRemaps @"Remaps"
+#define kMFConfigKeyScroll @"Scroll"
+#define kMFConfigKeyOther @"Other" // TODO: This occurs in keypaths a few times - replace with constant (search for 'Other.')
+#define kMFConfigKeyAppOverrides @"AppOverrides"
+
+#pragma mark - Remaps array
+// (^ Reuses many keys defined under "Remaps dict")
+#define kMFRemapsKeyTrigger                     @"trigger"
+#define kMFRemapsKeyModificationPrecondition    @"modifiers"
+#define kMFRemapsKeyEffect                      @"effect"
+
+#pragma mark - Remaps dict
+
+// Modification preconditions
+// Buttons
+#define kMFModificationPreconditionKeyButtons                           @"buttonModifiers"
+#define kMFButtonModificationPreconditionKeyButtonNumber                @"button"
+#define kMFButtonModificationPreconditionKeyClickLevel                  @"level"
+// Keyboard
+#define kMFModificationPreconditionKeyKeyboard                          @"keyboardModifiers"
+// (^ Use NSModifierFlags (CGEventFlags would probably work, too) as values)
+
+// Modified drag
+
+// Trigger (value for key kMFRemapsKeyTrigger)
+#define kMFTriggerDrag                                                  @"dragTrigger"
+// Type key
+#define kMFModifiedDragDictKeyType                                      @"modifiedDragType"
+// Type values
+#define kMFModifiedDragTypeTwoFingerSwipe                               @"twoFingerSwipe"
+#define kMFModifiedDragTypeThreeFingerSwipe                             @"threeFingerSwipe"
+#define kMFModifiedDragTypeNavigate                                     @"navigate" /// Mac E-Mouse: one Back/Forward per horizontal drag
+#define kMFModifiedDragTypeFakeDrag                                     @"fakeDrag"
+#define kMFModifiedDragTypeAddModeFeedback                              @"addModeDrag"
+// Variant keys
+#define kMFModifiedDragDictKeyFakeDragVariantButtonNumber               @"buttonNumber"
+
+// Modified Scroll
+
+// Trigger (value for key kMFRemapsKeyTrigger)
+#define kMFTriggerScroll                                                @"scrollTrigger"
+// Type key
+#define kMFModifiedScrollDictKeyType                                    @"modifiedScrollType"
+// Type values
+#define kMFModifiedScrollTypeZoom                                       @"zoom"
+#define kMFModifiedScrollTypeHorizontalScroll                           @"horizontal"
+#define kMFModifiedScrollTypePrecisionScroll                            @"precision"
+#define kMFModifiedScrollTypeFastScroll                                 @"fast"
+#define kMFModifiedScrollTypeAddModeFeedback                            @"addModeScroll"
+
+// Oneshot Actions
+// TODO: Used to be named ActionDict... Rename to OneShot..., or OneShotDict
+
+// Trigger Keys (value for key kMFRemapsKeyTrigger is dict using these keys)
+#define kMFButtonTriggerKeyButtonNumber                                 @"button"
+#define kMFButtonTriggerKeyClickLevel                                   @"level"
+#define kMFButtonTriggerKeyDuration                                     @"duration"
+// Trigger Values
+#define kMFButtonTriggerDurationClick                                   @"click"
+#define kMFButtonTriggerDurationHold                                    @"hold"
+// Type key
+#define kMFActionDictKeyType                                            @"type"
+// Type values
+#define kMFActionDictTypeSymbolicHotkey                                 @"symbolicHotkey"
+#define kMFActionDictTypeNavigationSwipe                                @"navigationSwipe"
+#define kMFActionDictTypeSmartZoom                                      @"smartZoom"
+#define kMFActionDictTypeKeyboardShortcut                               @"keyboardShortcut"
+#define kMFActionDictTypeSystemDefinedEvent                             @"systemDefinedEvent"
+#define kMFActionDictTypeMouseButtonClicks                              @"mouseButton"
+#define kMFActionDictTypeAddModeFeedback                                @"addModeAction"
+
+// Variant keys
+
+// Generic variant key (Use when a variant consists of just one value - so when we only need one variant key)
+#define kMFActionDictKeyGenericVariant                                   @"variant"
+// Keyboard shortcut variant keys
+#define kMFActionDictKeyKeyboardShortcutVariantKeycode                  @"keycode"
+#define kMFActionDictKeyKeyboardShortcutVariantModifierFlags            @"flags"
+// Button click variant keys
+#define kMFActionDictKeyMouseButtonClicksVariantButtonNumber            @"button"
+#define kMFActionDictKeyMouseButtonClicksVariantNumberOfClicks          @"nOfClicks"
+
+#define kMFActionDictKeySystemDefinedEventVariantType                   @"systemDefinedEventType"
+#define kMFActionDictKeySystemDefinedEventVariantModifierFlags          @"flags"
+
+
+// Variant values
+
+// Navigation swipe variants
+#define kMFNavigationSwipeVariantUp                                     @"up"
+#define kMFNavigationSwipeVariantRight                                  @"right"
+#define kMFNavigationSwipeVariantDown                                   @"down"
+#define kMFNavigationSwipeVariantLeft                                   @"left"
+
+// Symbolic Hotkeys
+// (Used as oneshot action dict variants (for actions of type `kMFActionDictTypeSymbolicHotkey`))
+
+typedef enum {
+    kMFSHMissionControl = 32,
+    kMFSHAppExpose = 33,
+    kMFSHShowDesktop = 36,
+    kMFSHLaunchpad = 160,
+    kMFSHLookUp = 70,
+    kMFSHAppSwitcher = 71,
+    kMFSHMoveLeftASpace = 79,
+    kMFSHMoveRightASpace = 81,
+    kMFSHCycleThroughWindows = 27,
+    
+    kMFSHSwitchToDesktop1 = 118,
+    kMFSHSwitchToDesktop2 = 119,
+    kMFSHSwitchToDesktop3 = 120,
+    kMFSHSwitchToDesktop4 = 121,
+    kMFSHSwitchToDesktop5 = 122,
+    kMFSHSwitchToDesktop6 = 123,
+    kMFSHSwitchToDesktop7 = 124,
+    kMFSHSwitchToDesktop8 = 125,
+    kMFSHSwitchToDesktop9 = 126,
+    kMFSHSwitchToDesktop10 = 127,
+    kMFSHSwitchToDesktop11 = 128,
+    kMFSHSwitchToDesktop12 = 129,
+    kMFSHSwitchToDesktop13 = 130,
+    kMFSHSwitchToDesktop14 = 131,
+    kMFSHSwitchToDesktop15 = 132,
+    kMFSHSwitchToDesktop16 = 133,
+    
+    kMFSHSpotlight = 64,
+    kMFSHSiri = 176,
+    kMFSHNotificationCenter = 163,
+    kMFSHToggleDoNotDisturb = 175,
+    
+    /// These shk are assigned to some function keys on apple keyboards
+    
+    kMFFunctionKeySHKMissionControl = 108,
+    kMFFunctionKeySHKDictation = 186,
+    kMFFunctionKeySHKSpotlight = 187,
+    kMFFunctionKeySHKSwitchKeyboard = 188,
+    kMFFunctionKeySHKDoNotDisturb = 189,
+    
+    kMFFunctionKeySHKLaunchpad = 173,
+    
+} MFSymbolicHotkey;
+
+/// SystemEvents
+
+///  NSEvents with type systemDefined and subtype 8 are fired when pressing some keys on Apple keyboards
+///         All the interesting info is in the `data1` field
+
+typedef enum {
+
+    /// These types are found in the `data1` field, shifted left by 16 bits
+    
+    kMFSystemEventTypeBrightnessDown = 3,
+    kMFSystemEventTypeBrightnessUp = 2,
+    kMFSystemEventTypeMediaBack = 16 + 4,
+    kMFSystemEventTypeMediaPlayPause = 16 + 0,
+    kMFSystemEventTypeMediaForward = 16 + 3,
+    kMFSystemEventTypeVolumeMute = 7,
+    kMFSystemEventTypeVolumeDown = 1,
+    kMFSystemEventTypeVolumeUp = 0,
+    
+    kMFSystemEventTypeKeyboardBacklightDown = 22,
+    kMFSystemEventTypeKeyboardBacklightUp = 21,
+    
+    kMFSystemEventTypePower = 6,
+    kMFSystemEventTypeCapsLock = 4, /// Should probably disable remapping to this. Doesn't work
+    
+} MFSystemDefinedEventType;
+
+enum {
+    /// More definitions for the `data1` field
+
+    kMFSystemDefinedEventPressedMask = 1 << 8, ///  0 is keyDown, 1 is keyUp
+    kMFSystemDefinedEventBase = (1 << 9) | (1 << 11), /// These two bits are always set    
+};
+
+// Mosue Buttons
+// (Used as oneshot action dict variants (for actions of type `kMFActionDictTypeMouseButtonClicks`))
+/// Note that CGMouseButton (and all CG APIs) assign 0 to left mouse button while MFMouseButtonNumber (and the rest of Mac Mouse Fix which doesn't use it yet) assigns 1 to lmb
+typedef enum {
+    kMFMouseButtonNumberLeft = 1,
+    kMFMouseButtonNumberRight = 2,
+    kMFMouseButtonNumberMiddle = 3,
+} MFMouseButtonNumber;
+
+#define kMFMaxButtonNumber 32
+
+@end
+
+NS_ASSUME_NONNULL_END
